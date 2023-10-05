@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
+import ShoppingLists from './components/ShoppingLists';
+import Welcome from './components/Welcome';
 
-export default function App() {
+const Stack = createNativeStackNavigator ();
+
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+
+
+const App = ()=> {
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4n7oUnnLdIXH2kpW9zilbRO7uUPRqsaM",
+    authDomain: "shopping-list-demo-c6d06.firebaseapp.com",
+    projectId: "shopping-list-demo-c6d06",
+    storageBucket: "shopping-list-demo-c6d06.appspot.com",
+    messagingSenderId: "298471126292",
+    appId: "1:298471126292:web:d89d469429723b4ede3e01"
+  };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    // Initialize Cloud Firestore and get a reference to the service
+    const db = getFirestore(app);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator 
+       initialRouteName="Welcome">
+        <Stack.Screen
+        name= "Welcome"
+         component = {Welcome} 
+         />
+        <Stack.Screen
+        name= "ShoppingLists">
+         {props => <ShoppingLists db={db} {...props} /> }
+        </Stack.Screen>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
+
+
