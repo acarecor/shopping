@@ -35,6 +35,7 @@ const ShoppingLists = ({ db , route, isConnected }) => {
       setLists(JSON.parse(cachedLists));
     }
     let unsubShoppinglists; 
+
     useEffect(() => {
       if (isConnected === true){
         if(unsubShoppinglists)unsubShoppinglists();
@@ -48,8 +49,8 @@ const ShoppingLists = ({ db , route, isConnected }) => {
         });
         cacheShoppinLists(newLists);
         setLists(newLists);
-    });
-  } else loadCachedLists();
+      });
+    } else loadCachedLists();
 
     //Clean up code
     return()=> {
