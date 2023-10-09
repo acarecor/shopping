@@ -12,16 +12,7 @@ import { LogBox, Alert } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore';
 
-    //function will display an alert popup if connection is lost 
-    const connectionStatus = useNetInfo();
-  
-    useEffect(() => {
-      if (connectionStatus.isConnected === false)
-     { Alert.alert("Connection lost!");
-     disableNetwork(db);
-     } else if (connectionStatus.isConnected=== true)
-     { enableNetwork(db);
-    }} , [connectionStatus.isConnected]);
+
 
 const App = ()=> {
   const firebaseConfig = {
@@ -37,7 +28,16 @@ const App = ()=> {
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore(app);
-
+   //function will display an alert popup if connection is lost 
+   const connectionStatus = useNetInfo();
+  
+   useEffect(() => {
+     if (connectionStatus.isConnected === false)
+    { Alert.alert("Connection lost!");
+    disableNetwork(db);
+    } else if (connectionStatus.isConnected=== true)
+    { enableNetwork(db);
+   }} , [connectionStatus.isConnected]);
 
 
   return (
